@@ -4,12 +4,12 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   PieChart, Pie, Cell, Sector 
 } from 'recharts';
-import { formatCurrency, getCategoryIcon } from '../utils/helpers';
+import { formatCurrency } from '../utils/helpers';
 import { format, parseISO } from 'date-fns';
 import { motion } from 'framer-motion';
 
 
-const COLORS = ['#10b981', '#3b82f6', '#f43f5e', '#f59e0b', '#8b5cf6', '#14b8a6', '#ec4899'];
+const COLORS = ['#dfff00', '#1a1c1e', '#9ca3af', '#f43f5e', '#3b82f6', '#f59e0b', '#8b5cf6'];
 
 
 const CustomAreaTooltip = ({ active, payload, label }) => {
@@ -39,7 +39,7 @@ const CustomAreaTooltip = ({ active, payload, label }) => {
 const CustomPieTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0];
-    const color = data.payload.fill || data.color || '#14b8a6';
+    const color = data.payload.fill || data.color || '#dfff00';
     return (
       <motion.div 
         initial={{ opacity: 0, scale: 0.8 }}
@@ -138,7 +138,7 @@ export default function ChartsSection() {
       {}
       <div className="glass-card rounded-[2rem] p-6 sm:p-8 lg:col-span-2 border border-[var(--border-color)] shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden relative group flex flex-col h-[380px]">
         {}
-        <div className="absolute top-[-100px] left-[-100px] w-[300px] h-[300px] bg-brand-500/10 blur-[100px] pointer-events-none rounded-full" />
+        <div className="pointer-events-none absolute left-[-100px] top-[-100px] h-[300px] w-[300px] rounded-full bg-[var(--accent-lime)]/10 blur-[100px]" />
         
         <div className="mb-4 relative z-10">
           <p className="text-xs font-bold uppercase tracking-widest text-[var(--text-secondary)]">Analytics</p>
@@ -153,8 +153,8 @@ export default function ChartsSection() {
             <AreaChart data={areaData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#b8e600" stopOpacity={0.45}/>
+                  <stop offset="95%" stopColor="#dfff00" stopOpacity={0}/>
                 </linearGradient>
                 <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.4}/>
@@ -162,7 +162,7 @@ export default function ChartsSection() {
                 </linearGradient>
                 {}
                 <filter id="glow" height="300%" width="300%" x="-100%" y="-100%">
-                  <feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="#10b981" floodOpacity="0.3"/>
+                  <feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="#dfff00" floodOpacity="0.35"/>
                 </filter>
                 <filter id="glow-rose" height="300%" width="300%" x="-100%" y="-100%">
                   <feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="#f43f5e" floodOpacity="0.3"/>
@@ -187,11 +187,11 @@ export default function ChartsSection() {
                 type="monotone" 
                 dataKey="income" 
                 name="Income"
-                stroke="#10b981" 
+                stroke="#9cb800" 
                 strokeWidth={4}
                 fillOpacity={1} 
                 fill="url(#colorIncome)" 
-                activeDot={{ r: 8, strokeWidth: 0, fill: '#10b981', style: { filter: 'drop-shadow(0px 0px 8px rgba(16,185,129,0.8))' } }}
+                activeDot={{ r: 8, strokeWidth: 0, fill: '#dfff00', style: { filter: 'drop-shadow(0px 0px 8px rgba(223,255,0,0.7))' } }}
                 style={{ filter: 'url(#glow)' }}
               />
               <Area 
@@ -258,7 +258,7 @@ export default function ChartsSection() {
               
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                 <span className="text-xs font-bold tracking-widest uppercase text-[var(--text-secondary)]">Total</span>
-                <span className="text-xl font-extrabold text-[var(--text-primary)] text-rose-500">{formatCurrency(totalExpense)}</span>
+                <span className="text-xl font-extrabold text-red-500">{formatCurrency(totalExpense)}</span>
               </div>
             </div>
           </div>

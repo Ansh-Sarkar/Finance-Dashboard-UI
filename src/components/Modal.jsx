@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import clsx from 'clsx';
 import { X, CheckCircle2 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { categories } from '../data/mockData';

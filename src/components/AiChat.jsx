@@ -82,7 +82,7 @@ export default function AiChat() {
             exit={{ scale: 0 }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="fixed bottom-6 right-6 z-50 flex items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 p-3 text-white shadow-[0_4px_15px_rgba(124,58,237,0.4)] hover:shadow-[0_4px_25px_rgba(124,58,237,0.6)] transition-all"
+            className="fixed bottom-6 right-6 z-50 flex items-center justify-center rounded-full border-2 border-[var(--accent-lime)] bg-[var(--header-bar)] p-3 text-[var(--accent-lime)] shadow-[0_8px_30px_rgba(0,0,0,0.25)] transition-all hover:brightness-110"
           >
             <Sparkles className="h-5 w-5" />
           </motion.button>
@@ -99,19 +99,19 @@ export default function AiChat() {
             className="fixed bottom-6 right-6 z-50 w-[350px] overflow-hidden rounded-2xl border border-[var(--border-color)] bg-[var(--bg-main)]/90 backdrop-blur-2xl shadow-2xl flex flex-col"
           >
             {}
-            <div className="flex items-center justify-between border-b border-[var(--border-color)] bg-gradient-to-r from-violet-600/10 to-indigo-600/10 p-4">
+            <div className="flex items-center justify-between border-b border-[var(--border-color)] bg-[var(--header-bar)] p-4 text-white">
               <div className="flex items-center gap-2">
-                <div className="rounded-full bg-violet-600 p-1.5 text-white">
+                <div className="rounded-full bg-[var(--accent-lime)] p-1.5 text-[var(--ink)]">
                   <Bot className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[var(--text-primary)] text-sm">Zorvyn Copilot</h3>
-                  <p className="text-[10px] text-[var(--text-secondary)] font-medium text-violet-500">AI Financial Analyst</p>
+                  <h3 className="text-sm font-bold">Zorvyn Copilot</h3>
+                  <p className="text-[10px] font-medium text-white/60">AI Financial Analyst</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="rounded-full p-1.5 text-[var(--text-secondary)] hover:bg-[var(--bg-card)] hover:text-[var(--text-primary)] transition-colors"
+                className="rounded-full p-1.5 text-white/70 hover:bg-white/10 hover:text-white transition-colors"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -124,14 +124,18 @@ export default function AiChat() {
                   key={msg.id}
                   className={`flex items-end gap-2 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}
                 >
-                  <div className={`shrink-0 rounded-full p-1.5 ${msg.sender === 'user' ? 'bg-brand-500' : 'bg-violet-600'} text-white`}>
+                  <div
+                    className={`shrink-0 rounded-full p-1.5 ${
+                      msg.sender === 'user' ? 'bg-[var(--accent-lime)] text-[var(--ink)]' : 'bg-[var(--header-bar)] text-[var(--accent-lime)]'
+                    }`}
+                  >
                     {msg.sender === 'user' ? <User className="h-3 w-3" /> : <Bot className="h-3 w-3" />}
                   </div>
                   <div
                     className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm font-medium shadow-sm ${
                       msg.sender === 'user'
-                        ? 'bg-brand-500 text-white rounded-br-sm'
-                        : 'bg-[var(--bg-main)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-bl-sm'
+                        ? 'rounded-br-sm bg-[var(--header-bar)] text-white'
+                        : 'rounded-bl-sm border border-[var(--border-color)] bg-[var(--bg-main)] text-[var(--text-primary)]'
                     }`}
                   >
                     {msg.text}
@@ -141,13 +145,13 @@ export default function AiChat() {
               
               {isTyping && (
                 <div className="flex items-end gap-2">
-                  <div className="shrink-0 rounded-full bg-violet-600 p-1.5 text-white">
+                  <div className="shrink-0 rounded-full bg-[var(--header-bar)] p-1.5 text-[var(--accent-lime)]">
                     <Bot className="h-3 w-3" />
                   </div>
-                  <div className="max-w-[80%] rounded-2xl bg-[var(--bg-main)] border border-[var(--border-color)] rounded-bl-sm px-4 py-3 shadow-sm flex items-center gap-1">
-                    <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} className="h-1.5 w-1.5 rounded-full bg-violet-500" />
-                    <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="h-1.5 w-1.5 rounded-full bg-violet-500" />
-                    <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="h-1.5 w-1.5 rounded-full bg-violet-500" />
+                  <div className="flex max-w-[80%] items-center gap-1 rounded-2xl rounded-bl-sm border border-[var(--border-color)] bg-[var(--bg-main)] px-4 py-3 shadow-sm">
+                    <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} className="h-1.5 w-1.5 rounded-full bg-[var(--accent-lime)]" />
+                    <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="h-1.5 w-1.5 rounded-full bg-[var(--accent-lime)]" />
+                    <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="h-1.5 w-1.5 rounded-full bg-[var(--accent-lime)]" />
                   </div>
                 </div>
               )}
@@ -162,12 +166,12 @@ export default function AiChat() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask Zorvyn..."
-                  className="w-full rounded-full border border-[var(--border-color)] bg-[var(--bg-main)] px-4 py-2.5 pr-10 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 text-[var(--text-primary)] placeholder-[var(--text-secondary)]"
+                  className="w-full rounded-full border border-[var(--border-color)] bg-[var(--bg-main)] px-4 py-2.5 pr-10 text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:border-[var(--accent-lime)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-lime)]/25"
                 />
                 <button
                   type="submit"
                   disabled={!input.trim()}
-                  className="absolute right-1.5 top-1.5 rounded-full bg-violet-600 p-1.5 text-white transition-all hover:bg-violet-700 disabled:opacity-50"
+                  className="absolute right-1.5 top-1.5 rounded-full bg-[var(--header-bar)] p-1.5 text-[var(--accent-lime)] transition-all hover:brightness-110 disabled:opacity-50"
                 >
                   <Send className="h-4 w-4" />
                 </button>

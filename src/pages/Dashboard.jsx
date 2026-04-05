@@ -1,19 +1,17 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import SummaryCards from '../components/SummaryCards';
+import FinanceHeroCharts from '../components/FinanceHeroCharts';
 import ChartsSection from '../components/ChartsSection';
 import Insights from '../components/Insights';
 import TransactionsTable from '../components/TransactionsTable';
 import AiChat from '../components/AiChat';
 import { useStore } from '../store/useStore';
 import { motion } from 'framer-motion';
-import { calculateTotals, formatCurrency } from '../utils/helpers';
 
 export default function Dashboard() {
   const isDarkMode = useStore((state) => state.isDarkMode);
-  const transactions = useStore((state) => state.transactions);
-
-  const { balance } = useMemo(() => calculateTotals(transactions), [transactions]);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -23,58 +21,59 @@ export default function Dashboard() {
     }
   }, [isDarkMode]);
 
-  
   useEffect(() => {
-    document.title = `FinDash`;
+    document.title = 'FinDash';
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--bg-main)] font-sans antialiased text-[var(--text-primary)] transition-colors duration-500">
-      <Navbar />
-      
-      <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-10 flex flex-col items-start lg:flex-row lg:items-end justify-between"
-        >
-          <div>
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-5xl">
-              Dashboard Overview
-            </h1>
-            <p className="mt-3 text-lg text-[var(--text-secondary)] font-medium max-w-2xl">
-              Here's your comprehensive financial summary. Monitor your balances, track expenses, and grow your wealth.
-            </p>
-          </div>
-          <div className="mt-6 lg:mt-0 right-0">
-            <span className="inline-flex rounded-full bg-brand-500/10 px-4 py-2 text-sm font-bold tracking-tight text-brand-600 dark:text-brand-400 border border-brand-500/20">
-              Live Data Sync • Up to date
+    <div className="flex min-h-screen bg-[var(--bg-main)] font-sans antialiased text-[var(--text-primary)] transition-colors duration-500">
+      <Sidebar />
+      <div className="flex min-w-0 flex-1 flex-col">
+        <Navbar />
+        <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-8 sm:px-6 lg:px-10">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between"
+          >
+            <div>
+              <p className="section-kicker">Overview</p>
+              <h1 className="mt-2 text-4xl font-black tracking-tight sm:text-5xl">Dashboard</h1>
+              <p className="mt-3 max-w-2xl text-base font-medium text-[var(--text-secondary)]">
+                Neon-on-charcoal hierarchy with a light shell: liquidity, flow, and category stacks —
+                built for fast scanning.
+              </p>
+            </div>
+            <span className="inline-flex w-fit items-center rounded-lg border border-[var(--border-color)] bg-[var(--bg-panel)] px-4 py-2 text-xs font-bold uppercase tracking-widest text-[var(--text-secondary)]">
+              Live sync
             </span>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        <SummaryCards />
-        <Insights />
-        <ChartsSection />
-        <TransactionsTable />
-        <AiChat />
-        
-        <footer className="mt-12 mb-8 text-center text-sm font-medium text-[var(--text-secondary)]">
-          <p>
-            Curated and Developed by{' '}
-            <a 
-              href="https://www.linkedin.com/in/prisha-sharma333/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="font-extrabold text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition-colors underline decoration-transparent hover:decoration-brand-500 underline-offset-4"
-            >
-              Prisha :)
-            </a>
-          </p>
-        </footer>
-      </main>
+          <SummaryCards />
+          <div id="insights">
+            <Insights />
+          </div>
+          <FinanceHeroCharts />
+          <ChartsSection />
+          <TransactionsTable />
+          <AiChat />
+
+          <footer className="mt-12 mb-8 text-center text-sm font-medium text-[var(--text-secondary)]">
+            <p>
+              Curated and Developed by{' '}
+              <a
+                href="https://www.linkedin.com/in/prisha-sharma333/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-[var(--text-primary)] underline decoration-transparent underline-offset-4 hover:text-[var(--accent-lime)] hover:decoration-[var(--accent-lime)]"
+              >
+                Prisha :)
+              </a>
+            </p>
+          </footer>
+        </main>
+      </div>
     </div>
   );
 }

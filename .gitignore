@@ -9,6 +9,9 @@ lerna-debug.log*
 
 node_modules
 dist
+
+# Local junction/symlink to external frontend (see project root)
+frontend
 dist-ssr
 *.local
 

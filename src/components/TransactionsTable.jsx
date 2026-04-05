@@ -392,7 +392,7 @@ export default function TransactionsTable() {
                           </div>
                           <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">No transactions found</h4>
                           <p className="text-sm font-medium text-[var(--text-secondary)] text-center leading-relaxed">
-                            We couldn't find anything matching your current filters.
+                            We could not find anything matching your current filters.
                           </p>
                           <button onClick={clearFilters} className="mt-6 text-brand-600 font-bold hover:underline hover:text-brand-500 dark:text-brand-400">
                             Clear Filters
@@ -466,7 +466,7 @@ export default function TransactionsTable() {
                   </div>
                   <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">No transactions found</h4>
                   <p className="text-sm font-medium text-[var(--text-secondary)] text-center leading-relaxed">
-                    We couldn't find anything matching your current filters.
+                    We could not find anything matching your current filters.
                   </p>
                   <button onClick={clearFilters} className="mt-6 text-brand-600 font-bold hover:underline hover:text-brand-500 dark:text-brand-400">
                     Clear Filters
@@ -489,7 +489,7 @@ export default function TransactionsTable() {
           >
             <button
               onClick={() => setIsModalOpen(true)}
-              className="group flex h-16 w-16 items-center justify-center rounded-full bg-brand-600 text-white shadow-[0_0_40px_-5px_var(--color-brand-500)] hover:bg-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/30 transition-all hover:scale-110 active:scale-95"
+              className="group flex h-16 w-16 items-center justify-center rounded-full border-2 border-[var(--accent-lime)] bg-[var(--header-bar)] text-[var(--accent-lime)] shadow-[0_0_40px_-8px_rgba(223,255,0,0.35)] transition-all hover:scale-110 hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-[var(--accent-lime)]/30 active:scale-95"
             >
               <Plus className="h-8 w-8 transition-transform group-hover:rotate-90" />
             </button>

@@ -1,76 +1,129 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useStore } from '../store/useStore';
-import { Moon, Sun, WalletCards, Shield, ShieldAlert, Hexagon, Zap } from 'lucide-react';
+import { Moon, Sun, Shield, ShieldAlert } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
+import { calculateTotals, formatCurrency } from '../utils/helpers';
+import { isToday, parseISO } from 'date-fns';
 
 export default function Navbar() {
   const { role, setRole, isDarkMode, toggleDarkMode } = useStore();
+  const transactions = useStore((state) => state.transactions);
+
+  const { netLiq, dailyPnL, rangePct } = useMemo(() => {
+    const { balance } = calculateTotals(transactions);
+    const todayNet = transactions.reduce((sum, t) => {
+      if (!isToday(parseISO(t.date))) return sum;
+      return sum + (t.type === 'Income' ? Number(t.amount) : -Number(t.amount));
+    }, 0);
+    const income = transactions
+      .filter((t) => t.type === 'Income')
+      .reduce((s, t) => s + Number(t.amount), 0);
+    const expense = transactions
+      .filter((t) => t.type === 'Expense')
+      .reduce((s, t) => s + Number(t.amount), 0);
+    const pct =
+      income > 0 ? Math.max(0, Math.min(100, Math.round(((income - expense) / income) * 100))) : 50;
+    return { netLiq: balance, dailyPnL: todayNet, rangePct: pct };
+  }, [transactions]);
 
   return (
-    <motion.nav 
-      initial={{ y: -50, opacity: 0 }}
+    <motion.header
+      initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ type: 'spring', damping: 20 }}
-      className="sticky top-0 z-50 flex h-20 w-full items-center justify-between border-b border-[var(--border-color)] bg-[var(--bg-main)]/60 backdrop-blur-xl px-6 lg:px-12 shadow-sm"
+      transition={{ type: 'spring', damping: 22 }}
+      className="sticky top-0 z-50 flex min-h-[4.5rem] flex-wrap items-center justify-between gap-4 border-b border-[var(--border-color)] bg-[var(--bg-main)]/85 px-4 py-3 backdrop-blur-xl lg:px-8"
     >
-      <div className="flex items-center gap-4 group cursor-pointer lg:hover:scale-105 transition-transform duration-300">
-        <div className="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-500 via-indigo-500 to-purple-600 text-white shadow-[0_8px_20px_rgba(99,102,241,0.4)] overflow-hidden">
-          <motion.div 
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
-            className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_0_280deg,rgba(255,255,255,0.8)_360deg)] opacity-40 mix-blend-overlay"
-          />
-          <div className="absolute inset-0.5 bg-gradient-to-br from-brand-600 to-indigo-800 rounded-[14px] z-0" />
-          <Hexagon className="h-10 w-10 absolute opacity-20 rotate-90 scale-125 z-0" />
-          <Zap className="h-6 w-6 relative z-10 group-hover:scale-110 group-hover:text-amber-300 transition-all duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+      <div className="flex items-center gap-3 lg:hidden">
+        <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[var(--accent-lime)] text-[var(--ink)]">
+          <span className="text-sm font-black">Z</span>
         </div>
-        <span className="text-3xl font-black tracking-tighter bg-gradient-to-r from-[var(--text-primary)] via-[var(--text-primary)] to-brand-500 bg-clip-text text-transparent drop-shadow-sm flex items-end">
-          FinDash<span className="text-brand-500 text-4xl leading-[0.6] ml-0.5">.</span>
-        </span>
+        <span className="text-lg font-black tracking-tight">FinDash</span>
+      </div>
+      <div className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-4 sm:gap-8 lg:flex-nowrap">
+        <div className="flex min-w-[140px] flex-col gap-1">
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-secondary)]">
+            Range
+          </span>
+          <div className="h-2 w-full max-w-[160px] overflow-hidden rounded-full bg-[var(--border-color)]">
+            <div
+              className="h-full rounded-full bg-[var(--accent-lime)] transition-all duration-500"
+              style={{ width: `${rangePct}%` }}
+            />
+          </div>
+        </div>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-secondary)]">
+            Net liq.
+          </p>
+          <p className="text-lg font-black tracking-tight text-[var(--text-primary)]">
+            {formatCurrency(netLiq)}
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-secondary)]">
+            Daily P&amp;L
+          </p>
+          <p
+            className={clsx(
+              'text-lg font-black tracking-tight',
+              dailyPnL >= 0 ? 'text-[var(--ink)] dark:text-[var(--accent-lime)]' : 'text-red-500'
+            )}
+          >
+            {dailyPnL >= 0 ? '+' : ''}
+            {formatCurrency(dailyPnL)}
+          </p>
+        </div>
       </div>
 
-      <div className="flex items-center gap-4 sm:gap-6">
-        {}
-        <div className="flex items-center rounded-2xl bg-[var(--bg-card)] p-1 border border-[var(--border-color)] shadow-inner">
+      <div className="flex items-center gap-3">
+        <div className="hidden items-center rounded-xl border border-[var(--border-color)] bg-[var(--bg-panel)] p-0.5 sm:flex">
           <button
+            type="button"
             onClick={() => setRole('Viewer')}
             className={clsx(
-              'flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all duration-300',
+              'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all',
               role === 'Viewer'
-                ? 'bg-brand-600 text-white shadow-lg shadow-brand-500/30 translate-y-0.5'
+                ? 'bg-[var(--header-bar)] text-white'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             )}
           >
-            <Shield className="h-4 w-4" />
-            <span className="hidden sm:inline">Viewer</span>
+            <Shield className="h-3.5 w-3.5" />
+            Viewer
           </button>
           <button
+            type="button"
             onClick={() => setRole('Admin')}
             className={clsx(
-              'flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all duration-300',
+              'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all',
               role === 'Admin'
-                ? 'bg-rose-600 text-white shadow-lg shadow-rose-500/30'
+                ? 'bg-red-600 text-white'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             )}
           >
-            <ShieldAlert className="h-4 w-4" />
-            <span className="hidden sm:inline">Admin</span>
+            <ShieldAlert className="h-3.5 w-3.5" />
+            Admin
           </button>
         </div>
 
-        {}
-        <div className="h-8 w-px bg-[var(--border-color)]"></div>
-
-        {}
         <button
+          type="button"
           onClick={toggleDarkMode}
-          className="group rounded-full p-2.5 bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:bg-[var(--bg-main)] hover:text-amber-500 dark:hover:text-amber-400 shadow-sm transition-all duration-300 hover:scale-110 active:scale-95"
-          aria-label="Toggle Dark Mode"
+          className="rounded-full border border-[var(--border-color)] bg-[var(--bg-panel)] p-2.5 text-[var(--text-secondary)] transition-all hover:border-[var(--accent-lime)] hover:text-[var(--text-primary)]"
+          aria-label="Toggle theme"
         >
-          {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5 group-hover:text-indigo-500" />}
+          {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
         </button>
+
+        <div
+          className="h-10 w-10 shrink-0 rounded-full border-2 border-[var(--accent-lime)] bg-[var(--header-bar)] bg-[length:100%_100%] shadow-[0_0_20px_rgba(223,255,0,0.2)]"
+          title="Profile"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 30% 25%, rgba(223,255,0,0.35), transparent 45%), linear-gradient(145deg, #2a2d32, #0f1113)',
+          }}
+        />
       </div>
-    </motion.nav>
+    </motion.header>
   );
 }

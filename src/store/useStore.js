@@ -7,7 +7,7 @@ export const useStore = create(
     (set) => ({
       transactions: initialTransactions,
       role: 'Viewer',
-      isDarkMode: true,
+      isDarkMode: false,
       
       globalSearch: '',
       setGlobalSearch: (term) => set({ globalSearch: term }),

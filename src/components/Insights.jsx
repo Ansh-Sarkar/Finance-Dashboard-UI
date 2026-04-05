@@ -70,10 +70,10 @@ export default function Insights() {
     >
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         
-        <div className="glass-card flex flex-col gap-4 rounded-[1.5rem] p-6 transition-all hover:-translate-y-1 hover:shadow-xl duration-300 border border-[var(--border-color)]">
+        <div className="glass-card flex flex-col gap-4 rounded-[1.5rem] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-[var(--border-color)]">
           <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 p-3.5 shadow-lg shadow-orange-500/30">
-              <TrendingDown className="h-5 w-5 text-white" />
+            <div className="rounded-2xl border border-white/10 bg-[var(--header-bar)] p-3.5 text-[var(--accent-lime)] shadow-lg">
+              <TrendingDown className="h-5 w-5" />
             </div>
             <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Total Expenses</p>
           </div>
@@ -87,11 +87,11 @@ export default function Insights() {
 
         <button 
           onClick={() => setGlobalCategory(insights.highestCategory)}
-          className="text-left glass-card flex flex-col gap-4 rounded-[1.5rem] p-6 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(244,63,94,0.3)] duration-300 border border-[var(--border-color)] hover:border-rose-500/50 cursor-pointer group"
+          className="text-left glass-card flex flex-col gap-4 rounded-[1.5rem] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(239,68,68,0.2)] border border-[var(--border-color)] hover:border-red-500/40 cursor-pointer group"
         >
           <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-gradient-to-br from-rose-400 to-red-600 p-3.5 shadow-lg shadow-red-500/30">
-              <Target className="h-5 w-5 text-white" />
+            <div className="rounded-2xl border border-white/10 bg-[var(--header-bar)] p-3.5 text-red-400 shadow-lg">
+              <Target className="h-5 w-5" />
             </div>
             <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Highest Category</p>
           </div>
@@ -107,11 +107,11 @@ export default function Insights() {
 
         <button 
           onClick={() => setGlobalCategory(insights.frequentCategory)}
-          className="text-left glass-card flex flex-col gap-4 rounded-[1.5rem] p-6 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.3)] duration-300 border border-[var(--border-color)] hover:border-blue-500/50 cursor-pointer group"
+          className="text-left glass-card flex flex-col gap-4 rounded-[1.5rem] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(223,255,0,0.15)] border border-[var(--border-color)] hover:border-[var(--accent-lime)]/40 cursor-pointer group"
         >
           <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 p-3.5 shadow-lg shadow-blue-500/30">
-              <Zap className="h-5 w-5 text-white" />
+            <div className="rounded-2xl border border-white/10 bg-[var(--header-bar)] p-3.5 text-[var(--accent-lime)] shadow-lg">
+              <Zap className="h-5 w-5" />
             </div>
             <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Most Frequent</p>
           </div>
@@ -125,10 +125,10 @@ export default function Insights() {
           </div>
         </button>
 
-        <div className="glass-card flex flex-col gap-4 rounded-[1.5rem] p-6 transition-all hover:-translate-y-1 hover:shadow-xl duration-300 border border-[var(--border-color)]">
+        <div className="glass-card flex flex-col gap-4 rounded-[1.5rem] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-[var(--border-color)]">
           <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 p-3.5 shadow-lg shadow-teal-500/30">
-              <TrendingUp className="h-5 w-5 text-white" />
+            <div className="rounded-2xl border border-white/10 bg-[var(--header-bar)] p-3.5 text-[var(--accent-lime)] shadow-lg">
+              <TrendingUp className="h-5 w-5" />
             </div>
             <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Avg. Transaction</p>
           </div>

@@ -27,7 +27,7 @@ export const formatCurrency = (amount) => {
 export const formatDate = (dateString) => {
   try {
     return format(parseISO(dateString), 'MMM dd, yyyy');
-  } catch (error) {
+  } catch {
     return dateString;
   }
 };
